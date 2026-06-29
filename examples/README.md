@@ -60,7 +60,19 @@ python weather_client.py   # client tự khởi động weather_server.py
 ```bash
 claude mcp add weather -- /đường/dẫn/tới/venv/bin/python /đường/dẫn/tới/weather_server.py
 ```
-> claude mcp add weather -- /Users/truongnh/day26-mcp/examples/mcp/venv/bin/python /Users/truongnh/day26-mcp/examples/mcp/weather_server.py
+
+Đăng ký server với Antigravity CLI (làm 1 lần):
+
+```bash
+vim ~/.gemini/config/mcp_config.json
+
+"weather": {
+    "command": "/đường/dẫn/tới/venv/bin/python",
+    "args": [
+      "/đường/dẫn/tới/weather_server.py"
+    ]
+}
+```
 
 ## Khác biệt chính
 
