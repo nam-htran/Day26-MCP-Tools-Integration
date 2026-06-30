@@ -17,6 +17,7 @@
 | `registry.json` | Discovery | Tool Registry — danh mục tool-centric, agent tìm theo tag/keyword |
 | `registry_client.py` | Discovery | Agent tra cứu registry, chọn best match, tự kết nối |
 | `versioned_server.py` | Versioning | Server v2: giữ tool v1 (deprecated) + thêm v2 + resource metadata |
+| `versioned_client.py` | Versioning | Client test gọi tool v1, v2 và đọc `server://info` metadata |
 
 ---
 
@@ -113,7 +114,8 @@ connect_and_call()  ← tự kết nối đúng transport (stdio/HTTP) + auth
 Server v2 dùng 3 kỹ thuật để thêm tính năng mà không break client cũ:
 
 ```bash
-python versioned_server.py
+# Server chạy qua stdio — client tự spawn
+python versioned_client.py
 ```
 
 | Kỹ thuật | Mô tả |
@@ -127,6 +129,39 @@ Server v2
 ├── get_weather(city)              ← v1, deprecated nhưng vẫn hoạt động
 ├── get_weather_v2(city, ...)      ← v2, thêm forecast + units
 └── resource server://info         ← version + migration guide cho client
+```
+
+Kết quả mong đợi:
+
+```
+Server: weather-v2 v2.0.0
+Deprecated tools: ['get_weather']
+Migration: Chuyển từ get_weather sang get_weather_v2. Tham số 'city' giữ nguyên, thêm include_forecast và units.
+
+Tools:
+  - get_weather: [v1] Lấy thời tiết hiện tại — trả chuỗi đơn giản. Deprecated, dùng get_weather_v2.
+  - get_weather_v2: [v2] Lấy thời tiết chi tiết — JSON, hỗ trợ forecast và đơn vị đo.
+
+[v1] get_weather('Hanoi'):
+  Hanoi: 29°C, trời mưa
+
+[v2] get_weather_v2('Hanoi', forecast=True):
+  { "api_version": "2.0", "city": "Hanoi", "temp": 29, ... }
+```
+
+Luồng:
+
+```
+versioned_client.py                     versioned_server.py
+       │                                        │
+       │── read_resource("server://info") ────▶ │  ← đọc metadata trước
+       │◀── version, deprecated_tools ────────  │
+       │                                        │
+       │── list_tools() ─────────────────────▶  │  ← khám phá tool
+       │◀── [get_weather, get_weather_v2] ────  │
+       │                                        │
+       │── call_tool("get_weather") ──────────▶ │  ← v1 deprecated, vẫn chạy
+       │── call_tool("get_weather_v2") ───────▶ │  ← v2 đầy đủ tính năng
 ```
 
 Client thông minh đọc `server://info` để biết tool nào deprecated, tự chọn dùng v2 nếu có, fallback v1 nếu không.
