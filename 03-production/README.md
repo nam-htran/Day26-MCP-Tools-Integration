@@ -38,14 +38,14 @@ Luồng:
 ```
 Client                                Server
   │                                      │
-  │── POST /mcp ──────────────────────▶ │
+  │── POST /mcp ──────────────────────▶  │
   │   Authorization: Bearer <token>      │
   │                                      │── TokenVerifier.verify_token()
   │                                      │   token hợp lệ → AccessToken
-  │◀── 200 OK (tools, results) ────────│
+  │◀── 200 OK (tools, results) ────────  │
   │                                      │
-  │── POST /mcp (token sai) ──────────▶ │
-  │◀── 401 Unauthorized ──────────────│
+  │── POST /mcp (token sai) ──────────▶  │
+  │◀── 401 Unauthorized ───────────────  │
 ```
 
 - Token hợp lệ → truy cập tool bình thường

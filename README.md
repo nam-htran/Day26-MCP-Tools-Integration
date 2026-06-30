@@ -149,13 +149,13 @@ Các ví dụ trên chạy tốt trên máy cá nhân, nhưng đưa vào **hệ 
 ┌─────────────────────────────────────────────────────┐
 │                  Production MCP                     │
 │                                                     │
-│  ┌──────────┐   ┌───────────┐   ┌───────────────┐  │
-│  │ Security │   │ Registry  │   │  Versioning   │  │
-│  │          │   │           │   │               │  │
-│  │ • Auth   │   │ • Discover│   │ • v1 compat   │  │
-│  │ • Token  │   │ • Connect │   │ • v2 features │  │
-│  │ • Scopes │   │ • Health  │   │ • Deprecation │  │
-│  └──────────┘   └───────────┘   └───────────────┘  │
+│  ┌──────────┐   ┌───────────┐   ┌───────────────┐   │
+│  │ Security │   │ Registry  │   │  Versioning   │   │
+│  │          │   │           │   │               │   │
+│  │ • Auth   │   │ • Discover│   │ • v1 compat   │   │
+│  │ • Token  │   │ • Connect │   │ • v2 features │   │
+│  │ • Scopes │   │ • Health  │   │ • Deprecation │   │
+│  └──────────┘   └───────────┘   └───────────────┘   │
 └─────────────────────────────────────────────────────┘
 ```
 
