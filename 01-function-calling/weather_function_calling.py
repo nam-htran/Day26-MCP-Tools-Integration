@@ -16,6 +16,13 @@ client = genai.Client()
 
 MODEL = "gemini-2.5-flash"
 
+SYSTEM_INSTRUCTION = (
+    "Bạn là trợ lý thời tiết thân thiện, trả lời bằng tiếng Việt tự nhiên. "
+    "Dùng emoji phù hợp (🌧️ 🌤️ 💨 💧). "
+    "Tóm tắt ngắn gọn, dễ hiểu, và đưa ra lời khuyên thực tế "
+    "(ví dụ: mang ô, mặc áo mỏng, ...)."
+)
+
 # 1. App tự định nghĩa schema của tool
 get_weather_declaration = types.FunctionDeclaration(
     name="get_weather",
@@ -73,7 +80,10 @@ def run(prompt: str) -> str:
     resp = client.models.generate_content(
         model=MODEL,
         contents=contents,
-        config=types.GenerateContentConfig(tools=TOOLS),
+        config=types.GenerateContentConfig(
+            tools=TOOLS,
+            system_instruction=SYSTEM_INSTRUCTION,
+        ),
     )
 
     # 4. Vòng lặp: nếu model yêu cầu tool, app TỰ THỰC THI rồi đưa kết quả trả lại
@@ -97,7 +107,10 @@ def run(prompt: str) -> str:
         resp = client.models.generate_content(
             model=MODEL,
             contents=contents,
-            config=types.GenerateContentConfig(tools=TOOLS),
+            config=types.GenerateContentConfig(
+                tools=TOOLS,
+                system_instruction=SYSTEM_INSTRUCTION,
+            ),
         )
 
     # 5. Model tổng hợp câu trả lời cuối
