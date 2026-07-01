@@ -4,3 +4,6 @@ __pycache__/
 venv/
 .env
 **/.venv
+.adk/
+*.db
+**/.DS_Store
