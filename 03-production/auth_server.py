@@ -12,7 +12,7 @@ Luồng hoạt động:
 Cách chạy:
     pip install -r ../requirements.txt     # từ thư mục gốc repo
     python auth_server.py
-    # Server lắng nghe tại http://localhost:8000/mcp
+    # Server lắng nghe tại http://localhost:8001/mcp
 """
 
 from __future__ import annotations
@@ -48,10 +48,10 @@ class StaticTokenVerifier(TokenVerifier):
 mcp = FastMCP(
     "weather-secure",
     host="0.0.0.0",
-    port=8000,
+    port=8001,
     auth=AuthSettings(
-        issuer_url="http://localhost:8000",
-        resource_server_url="http://localhost:8000",
+        issuer_url="http://localhost:8001",
+        resource_server_url="http://localhost:8001",
     ),
     token_verifier=StaticTokenVerifier(),
 )
